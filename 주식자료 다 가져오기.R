@@ -12,9 +12,8 @@ setwd('C:\\Users\\Administrator\\Desktop\\Dropbox\\주식 (석경하교수님)\\퀀트rawd
 setwd('C:\\data')
 filename1<-"퀀트데이터1-재무자료.xlsx"
 
-sheetnames<-excel_sheets(filename1) #시트이름 가져오기
-
 data1<-list()
+sheetnames<-excel_sheets(filename1) #시트이름 가져오기
 
 #데이터 정제 및 만들기 반복문
 for(i in sheetnames){
@@ -34,9 +33,8 @@ for(i in sheetnames){
   values<-a[6:a_nrow,3:a_ncol]
   
   #Make a data frame
-  data1[[i]]<-cbind(id,values)
+  data1[[i]]<-cbind(id,values) %>% data.table()
   names(data1[[i]])<-c('id',timenames)
-  data1[[i]] <- data1[[i]] %>% data.table()
 }
 
 ##########################################퀀트데이터2-roe,roa,성장률
@@ -45,7 +43,6 @@ for(i in sheetnames){
 filename2<-"퀀트데이터2-roe,roa,성장률.xlsx"
 
 sheetnames2<-excel_sheets(filename2) #시트이름 가져오기
-
 
 #데이터 정제 및 만들기 반복문
 for(i in sheetnames2){
@@ -75,7 +72,6 @@ for(i in sheetnames2){
 filename3<-"퀀트데이터3-4분기누적실적.xlsx"
 
 sheetnames3<-excel_sheets(filename3) #시트이름 가져오기
-
 
 #데이터 정제 및 만들기 반복문
 for(i in sheetnames3){
@@ -108,7 +104,7 @@ sheetnames4<-excel_sheets(filename4) #시트이름 가져오기
 
 #데이터 정제 및 만들기 반복문
 for(i in sheetnames4){
-  a<-read_excel(filename4,sheet = 1)
+  a<-read_excel(filename4,sheet = i)
   
   #Count rows and columns
   a_nrow<-nrow(a)
@@ -117,7 +113,6 @@ for(i in sheetnames4){
   #Make a variable names
   
   id<-a[8,2:a_ncol] %>% unlist()
-  
   
   timenames<-a[14:a_nrow,1] %>% unlist() %>% as.integer()-365*70-19
   timenames_1<-as.Date(timenames) %>% as.character() %>% substr(3,4)
@@ -132,9 +127,7 @@ for(i in sheetnames4){
   names(data1[[i]])<-c('id',timenames)
 }
 
-View(data1[[35]]) #1~21
+View(data1[[35]]) #1~35
 
 length(data1)
 class(data1[[35]])
-
-
