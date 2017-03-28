@@ -8,6 +8,7 @@ library("zoo") #install.packages('zoo')
 ##########################################퀀트데이터1-재무자료
 
 # Load a file
+setwd('C:\\Users\\Administrator\\Desktop\\Dropbox\\주식 (석경하교수님)\\퀀트rawdata')
 setwd('C:\\data')
 filename1<-"퀀트데이터1-재무자료.xlsx"
 
