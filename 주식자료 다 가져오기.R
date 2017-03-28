@@ -8,7 +8,7 @@ library("zoo") #install.packages('zoo')
 ##########################################퀀트데이터1-재무자료
 
 # Load a file
-setwd('C:\\Users\\Administrator\\Desktop\\Dropbox\\주식 (석경하교수님)\\퀀트rawdata')
+setwd('C:\\data')
 filename1<-"퀀트데이터1-재무자료.xlsx"
 
 sheetnames<-excel_sheets(filename1) #시트이름 가져오기
@@ -45,7 +45,6 @@ filename2<-"퀀트데이터2-roe,roa,성장률.xlsx"
 
 sheetnames2<-excel_sheets(filename2) #시트이름 가져오기
 
-data2<-list()
 
 #데이터 정제 및 만들기 반복문
 for(i in sheetnames2){
@@ -65,9 +64,8 @@ for(i in sheetnames2){
   values<-a[6:a_nrow,3:a_ncol]
   
   #Make a data frame
-  data2[[i]]<-cbind(id,values)
-  names(data2[[i]])<-c('id',timenames)
-  data2[[i]] <- data2[[i]] %>% data.table()
+  data1[[i]]<-cbind(id,values) %>% data.table()
+  names(data1[[i]])<-c('id',timenames)
 }
 
 ##########################################퀀트데이터3-4분기누적실적
@@ -77,7 +75,6 @@ filename3<-"퀀트데이터3-4분기누적실적.xlsx"
 
 sheetnames3<-excel_sheets(filename3) #시트이름 가져오기
 
-data3<-list()
 
 #데이터 정제 및 만들기 반복문
 for(i in sheetnames3){
@@ -97,9 +94,8 @@ for(i in sheetnames3){
   values<-a[6:a_nrow,3:a_ncol]
   
   #Make a data frame
-  data3[[i]]<-cbind(id,values)
-  names(data3[[i]])<-c('id',timenames)
-  data3[[i]] <- data3[[i]] %>% data.table()
+  data1[[i]]<-cbind(id,values) %>% data.table()
+  names(data1[[i]])<-c('id',timenames)
 }
 
 ##########################################퀀트데이터4-시총,수정주가
@@ -109,11 +105,9 @@ filename4<-"퀀트데이터4-시총,수정주가.xlsx"
 
 sheetnames4<-excel_sheets(filename4) #시트이름 가져오기
 
-data4<-list()
-
 #데이터 정제 및 만들기 반복문
 for(i in sheetnames4){
-  a<-read_excel(filename4,sheet = i)
+  a<-read_excel(filename4,sheet = 1)
   
   #Count rows and columns
   a_nrow<-nrow(a)
@@ -122,6 +116,7 @@ for(i in sheetnames4){
   #Make a variable names
   
   id<-a[8,2:a_ncol] %>% unlist()
+  
   
   timenames<-a[14:a_nrow,1] %>% unlist() %>% as.integer()-365*70-19
   timenames_1<-as.Date(timenames) %>% as.character() %>% substr(3,4)
@@ -132,12 +127,13 @@ for(i in sheetnames4){
   vf<-a[14:a_nrow,2:a_ncol] %>% t() %>% as.data.frame() %>%data.frame(row.names = NULL)
   
   #Make a data frame
-  data4[[i]]<-cbind(id,vf)
-  names(data4[[i]])<-c('id',timenames)
-  data4[[i]] <- data4[[i]] %>% data.table()
+  data1[[i]]<-cbind(id,vf) %>% data.table()
+  names(data1[[i]])<-c('id',timenames)
 }
 
-View(data1[[1]]) #1~21
-View(data2[[1]]) #1~9
-View(data3[[1]]) #1~3
-View(data4[[1]]) #1~2
+View(data1[[35]]) #1~21
+
+length(data1)
+class(data1[[35]])
+
+
